@@ -16,7 +16,7 @@
 #' @return Allocation of the subjects, given as a vector.
 #'
 #' @references S.L. van der Pas (2019). Merged block randomisation: a novel randomisation procedure for small clinical trials.
-#' Clinical Trials. Pages tba.
+#' Clinical Trials 16(3):246-252.
 #'
 #' @seealso \code{\link{mergedblocksmulti}} to create allocations for multiple strata at the same time.
 #'

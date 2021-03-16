@@ -4,8 +4,12 @@
 \alias{mergedblocksmulti}
 \title{Merged block randomization for multiple strata}
 \usage{
-mergedblocksmulti(K, n, ratio = c(1, 1),
-  labels = as.character(1:length(ratio)))
+mergedblocksmulti(
+  K,
+  n,
+  ratio = c(1, 1),
+  labels = as.character(1:length(ratio))
+)
 }
 \arguments{
 \item{K}{The number of strata.}
@@ -39,7 +43,7 @@ mergedblocksmulti(K = 3, n = c(30, 40, 50), ratio = c(1, 2), labels = c("placebo
 }
 \references{
 S.L. van der Pas (2019). Merged block randomisation: a novel randomisation procedure for small clinical trials.
-Clinical Trials. Pages tba.
+Clinical Trials 16(3):246-252.
 }
 \seealso{
 \code{\link{mergedblocks}} for a version for a single stratum.

@@ -4,8 +4,7 @@
 \alias{mergedblocks}
 \title{Merged block randomization}
 \usage{
-mergedblocks(n, ratio = c(1, 1),
-  labels = as.character(1:length(ratio)))
+mergedblocks(n, ratio = c(1, 1), labels = as.character(1:length(ratio)))
 }
 \arguments{
 \item{n}{The number of subjects to randomize.}
@@ -40,7 +39,7 @@ mergedblocks(100, c(1, 2, 2), c("placebo", "treatment 1", "treatment 2"))
 }
 \references{
 S.L. van der Pas (2019). Merged block randomisation: a novel randomisation procedure for small clinical trials.
-Clinical Trials. Pages tba.
+Clinical Trials 16(3):246-252.
 }
 \seealso{
 \code{\link{mergedblocksmulti}} to create allocations for multiple strata at the same time.

@@ -1,0 +1,178 @@
+---
+title: "Introduction to the mergedblocks package"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{VignetteMergedBlocks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(mergedblocks)
+```
+
+Merged block randomization is a restricted randomization method designed for small clinical trials (at most 100 subjects) or trials with small strata, for example in multicentre trials. It can be used for more than two groups (treatment arms) or unequal randomization ratios. 
+
+There are two functions in the mergedblocks package:
+
+* `mergedblocks()`, to create randomization lists for a single stratum.
+* `mergedblocksmulti()`, to create randomization lists for multiple strata.
+
+The package can be installed by typing `install.packages("mergedblocks")` in the R terminal. In addition to the package, a Shiny app is available from https://svdpas.shinyapps.io/mergedblocks/, which can be used to create randomization lists for two groups (treatment arms). 
+
+A detailed description of the method is available in Van der Pas (2019). Merged block randomisation: A novel randomisation procedure for small clinical trials. Clinical Trials 16(3):246-252. 
+
+In this vignette, we provide a guided tour of the two functions in the package, illustrating the options within each function. The sections are:
+
+1. Merged block randomization for a single stratum: `mergedblocks()`
+* 1.1 Two treatment arms, 1:1 allocation
+* 1.2 Two treatment arms, unequal allocation
+* 1.3 More than two treatment arms
+* 1.4 Saving the randomization lists
+
+2. Merged block randomization for multiple strata: `mergedblocksmulti()`
+* 2.1 Multiple strata, same sample size per stratum
+* 2.2 Multiple strata, sample sizes vary per stratum
+* 2.3 Saving the randomization lists
+
+## 1. Merged block randomization for a single stratum: `mergedblocks()`
+### 1.1 Two treatment arms, 1:1 allocation
+For two treatment arms with 1:1 allocation, `mergedblocks()` only requires the number of individuals to be randomized as input, via the argument `n`. For example, we obtain a randomization list for 50 individuals via:
+
+```{r}
+mergedblocks(n = 50)
+```
+
+By default, the two groups will get numeric labels, in this case "1" and "2". You can select custom labels with the `labels` argument. For example:
+
+```{r}
+mergedblocks(n = 50, labels = c("treatment", "placebo"))
+```
+
+
+### 1.2 Two treatment arms, unequal allocation
+The argument `ratio` can be used to select the desired randomization ratio. For example, if we wish to randomize 50 individuals to two groups in a 1:2 ratio, with allocations labelled as "A" and "B", we would use:
+
+```{r}
+mergedblocks(n = 50, ratio = c(1, 2), labels = c("A", "B"))
+```
+
+Or for a 3:2 ratio:
+
+```{r}
+mergedblocks(n = 50, ratio = c(3, 2), labels = c("A", "B"))
+```
+
+### 1.3 More than two treatment arms
+The argument `ratio` can be used to obtain randomization lists for more than two treatment arms. Suppose the number of treatment arms is $N$. Then the `ratio` argument is set to a vector of length $N$, with the entries of the vector indicating the desired randomization ratio.
+
+For example, to randomize 50 subjects to three treatment arms in a 1:1:1 ratio:
+
+```{r}
+mergedblocks(n = 50, ratio = c(1, 1, 1))
+```
+
+If other labels than the default numeric ones are desired, the argument `labels` can be used. It requires a vector of the same length as `ratio`. For example, 1:1:1 allocation to treatments "A", "B" and "C":
+
+```{r}
+mergedblocks(n = 50, ratio = c(1, 1, 1), labels = c("A", "B", "C"))
+```
+
+For e.g. five treatment arms:
+
+```{r}
+mergedblocks(n = 50, ratio = c(1, 1, 1, 1, 1), labels = c("A", "B", "C", "D", "E"))
+```
+
+Unequal allocation is also possible. For example, to randomize 50 individuals to three treatment arms, "A", "B" and "C", in a 1:1:2 ratio:
+
+```{r}
+mergedblocks(n = 50, ratio = c(1, 1, 2), labels = c("A", "B", "C"))
+```
+
+The arguments of `ratio` and `labels` are linked In the example above, treatment "C" was assigned twice as often as "A" or "B". With the following code, treatment "A" is assigned twice as often as "B" or "C" (2:1:1 ratio).
+
+```{r}
+mergedblocks(n = 50, ratio = c(2, 1, 1), labels = c("A", "B", "C"))
+```
+
+As a final example, to randomize 100 individuals to four treatment arms in a 2:2:3:3 ratio:
+
+```{r}
+four.arms <- mergedblocks(n = 100, ratio = c(2, 2, 3, 3), labels = c("A", "B", "C", "D"))
+
+four.arms
+
+table(four.arms)
+```
+
+### 1.4 Saving the randomization lists
+The randomization lists can be saved using e.g. `write.table()` or `write.csv()`. For example:
+
+```{r, eval = FALSE}
+example.list <- mergedblocks(n = 50, ratio = c(1, 2), labels = c("A", "B"))
+
+write.csv2(example.list, file = "./YourFilePath/ExampleList.csv")
+```
+
+This particular example will yield a CSV file with two columns. The first column contains the numbers 1-50, the second column contains the allocations.
+
+## 2. Merged block randomization for multiple strata: `mergedblocksmulti()`
+
+The function `mergedblocksmulti()` can be used to create randomization lists for multiple strata, as in a multicentre trial. The function allows for different sample sizes per stratum, and for unequal randomization ratios.
+
+The function `mergedblocksmulti()` has four arguments. The arguments `ratio` and `labels` work the same as for the single stratum function `mergedblocks()`. The focus of this part of the vignette will be on `K` and `n`, the two arguments that work differently compared to the arguments of `mergedblocks()`.
+
+### 2.1 Multiple strata, same sample size per stratum
+The argument `K` is set to the number of strata. If the number of individuals per stratum is the same for each stratum, the argument `n` can be set to this number. 
+
+For example, to create randomization lists for three strata with 25 individuals per stratum:
+
+```{r}
+mergedblocksmulti(K = 3, n = 25)
+```
+
+In the code above, default 1:1 allocation was used, with default numeric treatment labels. The output is a dataframe with one column for each stratum. As for `mergedblocks()`, the allocation ratio can be changed to e.g. 1:2 allocation, and custom labels can be used, e.g. "treatment" and "placebo":
+
+```{r}
+mergedblocksmulti(K = 3, n = 25, ratio = c(1, 2), labels = c("treatment", "placebo"))
+```
+
+As a further example, the following code yields randomization lists for four strata, 30 individuals per stratum, with 1:1:1 allocation of three treatments labelled "A", "B" and "C".
+
+```{r}
+mergedblocksmulti(K = 4, n = 30, ratio = c(1, 1, 1), labels = c("A", "B", "C"))
+```
+
+### 2.2 Multiple strata, sample sizes vary per stratum
+The argument `n` can be used to incorporate varying sample sizes. For example, suppose we have three strata, with sample sizes 20, 30 and 25 In each stratum, 1:1 allocation to treatments "A" and "B" is desired. We could use the following code:
+
+```{r}
+mergedblocksmulti(K = 3, n = c(20, 30, 25), ratio = c(1, 1), labels = c("A", "B"))
+```
+
+The argument `n` is now set to a vector with the desired sample sizes. The output is a dataframe with three columns, one per stratum. The columns with sample sizes 20 and 25 are padded with NAs. 
+
+As a further example, with the following code we obtain randomization lists for five strata, sample sizes 35, 30, 40, 20 and 15, for 1:1:1 allocation to treatments "A", "B" and "C".
+
+```{r}
+mergedblocksmulti(K = 5, n = c(35, 30, 40, 20, 15), ratio = c(1, 1, 1), labels = c("A", "B", "C"))
+```
+
+### 2.3 Saving the randomization lists
+The randomization lists can be saved using e.g. `write.table()` or `write.csv()`. For example:
+
+```{r, eval = FALSE}
+example.list <- mergedblocksmulti(K = 5, n = c(35, 30, 40, 20, 15), ratio = c(1, 1, 1), labels = c("A", "B", "C"))
+
+write.csv2(example.list, file = "./YourFilePath/ExampleList.csv")
+```
+
+This particular example will yield a CSV file with six columns. The first column contains the numbers 1-40, the remaining five columns contain the allocations per stratum (one column per stratum).

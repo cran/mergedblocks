@@ -16,7 +16,7 @@
 #' @return Allocation of the subjects, given as a dataframe, with one column per stratum. Padded with NAs in case of different sample sizes per stratum.
 #'
 #' @references S.L. van der Pas (2019). Merged block randomisation: a novel randomisation procedure for small clinical trials.
-#' Clinical Trials. Pages tba.
+#' Clinical Trials 16(3):246-252.
 #'
 #' @seealso \code{\link{mergedblocks}} for a version for a single stratum.
 #'
