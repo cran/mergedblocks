@@ -21,7 +21,7 @@
 #' @seealso \code{\link{mergedblocksmulti}} to create allocations for multiple strata at the same time.
 #'
 #' @examples
-#'#Randomize 20 patients, 1:1 allocation, with labels "0" and "1".
+#'#Randomize 20 patients, 1:1 allocation, with labels "1" and "2".
 #' mergedblocks(20)
 #'
 #'#Randomize 50 patients, 1:1 allocation with labels "treatment" and "placebo".

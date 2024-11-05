@@ -33,7 +33,7 @@ Function to carry out merged block randomization, for multiple strata.
 }
 \examples{
 #Four strata, randomize 20 patients for each stratum, 1:1 allocation,
-#with labels "0" and "1".
+#with labels "1" and "2".
 mergedblocksmulti(K = 4, n = 20)
 
 #Three strata, randomize 30, 40 and 50 patients for each stratum,

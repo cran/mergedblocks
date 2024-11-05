@@ -26,7 +26,7 @@ with small strata, for example in multicentre trials. It can be used for
 more than two groups or unequal randomization ratios.
 }
 \examples{
-#Randomize 20 patients, 1:1 allocation, with labels "0" and "1".
+#Randomize 20 patients, 1:1 allocation, with labels "1" and "2".
 mergedblocks(20)
 
 #Randomize 50 patients, 1:1 allocation with labels "treatment" and "placebo".
